@@ -1,0 +1,44 @@
+import igraph
+from igraph import summary, mean
+from math import log
+import matplotlib.pyplot as plt
+from itertools import groupby
+
+g = igraph.read("soc-BlogCatalog.mtx" , format="edge")
+
+def degree_frequency():
+    m = list(g.degree_distribution().bins())
+    
+    deg = []
+    for j in m:
+        d.append(str(j).replace(')',',').split(',')[2])
+
+    deg = map(int, d)
+    deg.sort()
+    deg_freq = [len(list(group)) for key, group in groupby(deg)]
+    deg_freq.sort(reverse=True)
+    
+    return deg_freq
+
+def powerLaw():
+   
+    plt.plot(degree_frequency())
+    plt.title("Degree distribution graph")
+    plt.ylabel("Number of nodes with k links")
+    plt.xlabel("Number of links [k]")
+    plt.show()
+    
+def smallWorld():
+    print("Small World Property: ")
+    print(log(g.vcount()) / log(mean(g.degree())))
+    
+def clusteringCoeff():
+    print("Global clustering coefficient")
+    print(g.transitivity_undirected())
+    
+def showRealNetwork():
+    #powerLaw()
+    smallWorld()
+    clusteringCoeff()
+
+showRealNetwork()
