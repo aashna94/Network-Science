@@ -1,0 +1,43 @@
+from igraph import summary, Graph
+
+#files used:weighted_graph.edges and unweighted_graph.edges
+wg = Graph.Read_Ncol("weighted_graph.edges", weights=True, directed=True)
+ug = Graph.Read_Ncol("unweighted_graph.edges", weights=False, directed=True)
+weighted_ev = ''
+unweighted_ev = ''
+
+#to calc Eigenvector centrality of an undirected graph
+def weighted():
+    summary(wg)
+    print("Eigenvector centrality of an undirected graph:")
+    i = wg.eigenvector_centrality(directed=True, weights = wg.es["weight"], return_eigenvalue=True)
+    printVector(i)
+    return ("Eigen value of weighted graph is "+str(i[1]))
+
+
+#to calc Eigenvector centrality of a directed graph
+def unweighted():
+    summary(ug)
+    print("Eigenvector centrality of an directed graph:")
+    i = ug.eigenvector_centrality(directed=True, weights = None, return_eigenvalue=True)
+    printVector(i)
+    return("Eigen value of the same unweighted graph is "+str(i[1]))
+
+#to print eigen values
+def printEigenValue(value):
+    print("\n")
+    print(value)
+
+#to print matrix
+def printVector(l):
+    j = 1
+    for  k in l[0]:
+        print(str(round(k,5))+"\t\t"),
+        if j%4 == 0:
+            print "\n"
+        j+=1
+
+weighted_value = weighted()
+unweighted_value = unweighted()
+printEigenValue(weighted_value)
+printEigenValue(unweighted_value)
